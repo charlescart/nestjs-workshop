@@ -1,11 +1,20 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from './apis/config/config.module';
+import { ConfigService } from './apis/config/config.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from './apis/config/config.module';
 
 @Module({
   imports: [ConfigModule],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  static port: number | string;
+  static prefix: string;
+
+  constructor(private readonly _ConfigService: ConfigService) {
+    AppModule.port = this._ConfigService.get('PORT');
+    AppModule.prefix = this._ConfigService.get('PREFIX');
+  }
+}

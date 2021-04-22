@@ -3,7 +3,7 @@ import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '../config/config.service';
 import { ConnectionOptions } from 'typeorm';
 import { join } from 'path';
-// import { User } from '../users/entities/users.entity';
+import { User } from '../users/entities/user.entity';
 
 export const databaseService = [
     TypeOrmModule.forRootAsync({
@@ -17,9 +17,9 @@ export const databaseService = [
                 username: config.get('DB_USER'),
                 password: config.get('DB_PASSWORD'),
                 logging: true,
-                entities: [join(process.cwd(), "/dist/apis/**/**/*.entity{.ts,.js}")],
+                entities: [__dirname + '/../**/*.entity{.ts,.js}'],
                 migrations: [join(process.cwd(), '/src/apis/database/migrations/*{.ts,.js}')],
-                synchronize: true
+                synchronize: true,
             } as ConnectionOptions
         }
     })
